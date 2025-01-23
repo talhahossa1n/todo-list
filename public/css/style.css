@@ -160,6 +160,36 @@ body {
   border: 0.1rem solid #008b95eb;
 }
 
+.nav-buttons {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.nav-button {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: #5caab8;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #d3f0f0;
+}
+
+.nav-button:hover {
+  background: #38a9bd;
+}
+
+footer {
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  color: #fff;
+}
+
 @media (max-width: 60rem) {
   .container {
     padding: 1rem;
