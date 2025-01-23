@@ -1,0 +1,17 @@
+{
+  "name": "todolist-v1",
+  "version": "1.0.0",
+  "description": "A ToDo List webapp. it can create new task and mark them which are done.",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Md. Talha Hossain",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}
