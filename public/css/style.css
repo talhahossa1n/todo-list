@@ -61,13 +61,18 @@ body {
   max-height: 45vh;
 }
 
+form {
+  border-bottom: 0.1rem solid #008b9586;
+
+}
+
 .item {
   display: flex;
   align-items: center;
   background: #dbf0f0;
   margin: 0rem auto;
   padding: 0.9rem;
-  border-bottom: 0.1rem solid #008b9586;
+  /* border-bottom: 0.1rem solid #008b9586; */
 }
 
 .item:last-child {

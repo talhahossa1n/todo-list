@@ -1,45 +1,54 @@
 <%- include('header.ejs') %>
-    <div class="main-container">
-      <div class="date-container">
-        <h1 class="title"><%= listTitle %></h1>
-      </div>
-      <div class="container">
-        <div class="item-list">
-          <% listItems.forEach((item, index) => { %>
-          <div class="item">
-            <input
-              type="checkbox"
-              class="item-checkbox"
-              id="item-<%= index %>"
-              aria-label="Mark <%= item %> as completed"
-            />
-            <label for="item-<%= index %>" class="item-text"><%= item %></label>
-          </div>
-          <% }); %>
-        </div>
+<div class="main-container">
+  <div class="date-container">
+    <h1 class="title"><%= listTitle %></h1>
+  </div>
+  <div class="container">
+    <div class="item-list">
+      <% listItems.forEach((item, index) => { %>
 
-        <form class="item-form" action="/" method="post">
+      <form action="/delete" method="post">
+        <div class="item">
           <input
-            class="item-input"
-            type="text"
-            name="newItem"
-            placeholder="New item"
-            required
+            type="checkbox"
+            name="checkbox"
+            class="item-checkbox"
+            id="item-<%= index %>"
+            aria-label="Mark <%= item.name %> as completed"
+            value="<%= item._id %>"
+            onchange="this.form.submit()"
           />
-          <button
-            class="item-button"
-            type="submit"
-            name="btnFromList"
-            value="<%= listTitle %>"
+          <label for="item-<%= index %>" class="item-text"
+            ><%= item.name %></label
           >
-            +
-          </button>
-        </form>
-      </div>
-      <div class="nav-buttons">
-        <a href="/" class="nav-button">Home</a>
-        <a href="/work" class="nav-button">Work</a>
-        <a href="/about" class="nav-button">About</a>
-      </div>
+        </div>
+        <input type="hidden" name="listName" value="<%= listTitle %>"></input>
+      </form>
+      <% }); %>
     </div>
+
+    <form class="item-form" action="/" method="post">
+      <input
+        class="item-input"
+        type="text"
+        name="newItem"
+        placeholder="New item"
+        required
+      />
+      <button
+        class="item-button"
+        type="submit"
+        name="btnFromList"
+        value="<%= listTitle %>"
+      >
+        +
+      </button>
+    </form>
+  </div>
+  <div class="nav-buttons">
+    <a href="/" class="nav-button">Home</a>
+    <a href="/work" class="nav-button">Work</a>
+    <a href="/about" class="nav-button">About</a>
+  </div>
+</div>
 <%- include('footer.ejs') %>
