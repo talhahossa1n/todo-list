@@ -33,7 +33,7 @@ const listSchema = new mongoose.Schema({
 
 const List = mongoose.model("List", listSchema);
 
-app.get(['/', 'home'], (req, res) => {
+app.get("/", (req, res) => {
   const day = date();
   const items = Item.find({});
 
