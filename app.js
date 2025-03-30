@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-//const date = require(__dirname + '/date.js');
+const date = require(__dirname + "/date.js");
 const mongoose = require("mongoose");
 const _ = require("lodash");
 
@@ -33,30 +33,10 @@ const listSchema = new mongoose.Schema({
 
 const List = mongoose.model("List", listSchema);
 
-//delete multiple items by id
-// async function deleteItemsById(ids) {
-//    await Item.deleteMany({ _id: {$in: ids} });
-// }
-// deleteItemsById(['67e77e7edce79d8ae5ef7d9c', '67e77e7edce79d8ae5ef7d9d', '67e77e7edce79d8ae5ef7d9e']);
-
-// log / find items in the database
-// async function logItems() {
-//     const items =  Item.find({});
-//     items.then((result) => {
-//         result.forEach(item => {
-//             console.log(item.name);
-//         });
-//         // console.log(result);
-//     }).catch((err) => {
-//         console.error('Error finding items:', err);
-//     });
-// }
-// logItems();
-
-app.get("/", (req, res) => {
-  //const day = date();
-
+app.get(['/', 'home'], (req, res) => {
+  const day = date();
   const items = Item.find({});
+
   items
     .then((foundItems) => {
       if (foundItems.length === 0) {
@@ -69,7 +49,11 @@ app.get("/", (req, res) => {
             console.error("Error adding items:", err);
           });
       } else {
-        res.render("list", { listTitle: "Today", listItems: foundItems });
+        res.render("list", {
+          listTitle: "Today",
+          listItems: foundItems,
+          currentDate: day,
+        });
       }
     })
     .catch((err) => {
@@ -77,32 +61,39 @@ app.get("/", (req, res) => {
     });
 });
 
+app.get("/about", (req, res) => {
+    res.render("about");
+  });
+
 app.get("/:customListName", (req, res) => {
   const customListName = _.capitalize(req.params.customListName);
+  const day = date();
+  if (customListName !== "Today" && customListName !== "About") {
+    List.findOne({ name: customListName })
+      .then((foundList) => {
+        if (!foundList) {
+          // Create a new list if it doesn't exist
 
-  List.findOne({ name: customListName })
-    .then((foundList) => {
-      if (!foundList) {
-        // Create a new list if it doesn't exist
+          const list = new List({
+            name: customListName,
+            items: defaultItems,
+          });
 
-        const list = new List({
-          name: customListName,
-          items: defaultItems,
-        });
-
-        list.save();
-        res.redirect("/" + customListName);
-      } else {
-        // Render the existing list
-        res.render("list", {
-          listTitle: foundList.name,
-          listItems: foundList.items,
-        });
-      }
-    })
-    .catch((err) => {
-      console.error("Error finding list:", err);
-    });
+          list.save();
+          res.redirect("/" + customListName);
+        } else {
+          // Render the existing list
+          res.render("list", {
+            listTitle: foundList.name,
+            listItems: foundList.items,
+            currentDate: day,
+          });
+        }
+      })
+      .catch((err) => {
+        console.error("Error finding list:", err);
+      });
+  }
 });
 
 app.post("/", (req, res) => {
@@ -149,7 +140,7 @@ app.post("/delete", (req, res) => {
     const filter = { name: listName };
     const update = { $pull: { items: { _id: checkedItemId } } };
 
-    List.findOneAndUpdate(filter, update )
+    List.findOneAndUpdate(filter, update)
       .then(() => {
         res.redirect("/" + listName);
       })
@@ -159,29 +150,7 @@ app.post("/delete", (req, res) => {
   }
 });
 
-// app.get("/work", (req, res) => {
-//   res.render("list", { listTitle: "Work", listItems: workItems });
-// });
-
-app.get("/about", (req, res) => {
-  res.render("about");
-});
-
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
 // https://github.com/talhahossa1n/todo-list.git
-//things depricated from version 1:
-
-// const items = [];
-// const workItems = [];
-
-//   if (item.trim() !== "") {
-//     if (req.body.btnFromList === "Work") {
-//       workItems.push(item);
-//       res.redirect("/work");
-//     } else {
-//       items.push(item);
-//       res.redirect("/");
-//     }
-//   }

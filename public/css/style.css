@@ -27,7 +27,14 @@ body {
   overflow: hidden; /* Prevent overflow */
 }
 
-.date-container {
+.date-display {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.title-container {
   text-align: center;
   background: #5caab8;
   color: white;

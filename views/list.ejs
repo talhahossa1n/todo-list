@@ -1,6 +1,9 @@
 <%- include('header.ejs') %>
 <div class="main-container">
-  <div class="date-container">
+  <div class="date-display">
+    <h2><%= currentDate %></h2>
+  </div>
+  <div class="title-container">
     <h1 class="title"><%= listTitle %></h1>
   </div>
   <div class="container">
@@ -46,7 +49,7 @@
     </form>
   </div>
   <div class="nav-buttons">
-    <a href="/" class="nav-button">Home</a>
+    <a href="/" class="nav-button">Today</a>
     <a href="/work" class="nav-button">Work</a>
     <a href="/about" class="nav-button">About</a>
   </div>
