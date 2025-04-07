@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const date = require(__dirname + "/date.js");
@@ -5,11 +6,16 @@ const mongoose = require("mongoose");
 const _ = require("lodash");
 
 const app = express();
+const mongoURI = process.env.MONGO_URI;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
-mongoose.connect("mongodb+srv://talhahossa1n:password4321@cluster0.hvuiwhp.mongodb.net/todolistDB");
+
+mongoose
+  .connect(mongoURI)
+  .then(() => console.log("Connected to MongoDB Atlas"))
+  .catch((err) => console.error("MongoDB Atlas connection error:", err));
 
 //create schema
 const itemSchema = new mongoose.Schema({
@@ -62,8 +68,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-    res.render("about");
-  });
+  res.render("about");
+});
 
 app.get("/:customListName", (req, res) => {
   const customListName = _.capitalize(req.params.customListName);
